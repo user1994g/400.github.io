@@ -89,6 +89,7 @@
         <div class="hero-actions">
           <button class="button button-primary" id="play-featured" type="button"><span aria-hidden="true">▶</span> Play</button>
           <button class="button button-secondary" type="button" data-message="The dark echo’s of 1939 · Feature film · Atmospheric mystery"><span aria-hidden="true">ⓘ</span> More Info</button>
+          <button class="button button-download" id="open-install" type="button"><span aria-hidden="true">↓</span> Get the app</button>
         </div>
       </div>
       <div class="hero-caption"><span>01</span><i></i><span>05</span><em>Featured tonight</em></div>
@@ -114,6 +115,18 @@
     <section class="player-dialog" role="dialog" aria-modal="true" aria-labelledby="player-title">
       <div class="player-bar"><h2 id="player-title">The dark echo’s of 1939</h2><button class="player-close" type="button" data-close-player aria-label="Close video">×</button></div>
       <div class="player-frame"><iframe id="video-frame" title="The dark echo’s of 1939" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+    </section>
+  </div>
+  <div class="install-modal" id="install-modal" hidden>
+    <div class="install-backdrop" data-close-install></div>
+    <section class="install-dialog" role="dialog" aria-modal="true" aria-labelledby="install-title">
+      <div class="install-heading"><p class="eyebrow">NETVISTASTUDIO DESKTOP</p><h2 id="install-title">Get the app</h2><button class="install-close" type="button" data-close-install aria-label="Close download options">×</button></div>
+      <p class="install-copy">Install netvistastudio on your computer for a dedicated, app-like experience.</p>
+      <div class="install-options">
+        <button class="install-option" type="button" data-install-platform="Mac"><span class="platform-symbol" aria-hidden="true">⌘</span><span><strong>Get for Mac</strong><small>Install with Chrome</small></span></button>
+        <button class="install-option" type="button" data-install-platform="Windows"><span class="platform-symbol" aria-hidden="true">⊞</span><span><strong>Get for Windows</strong><small>Install with Chrome or Edge</small></span></button>
+      </div>
+      <p class="install-status" id="install-status" role="status" aria-live="polite">Choose your computer to install the app.</p>
     </section>
   </div>
   <script src="assets/js/app.js" defer></script>

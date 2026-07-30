@@ -21,7 +21,10 @@ const toast = document.querySelector('.toast');
 const player = document.querySelector('#player');
 const videoFrame = document.querySelector('#video-frame');
 const videoUrl = 'https://clip-kingdom-play.lovable.app/embed/21230af6-5a84-4072-befc-276e5f349145';
+const installModal = document.querySelector('#install-modal');
+const installStatus = document.querySelector('#install-status');
 let toastTimer;
+let installPrompt;
 
 function showToast(message) {
   toast.textContent = message;
@@ -135,3 +138,45 @@ function closePlayer() {
 document.querySelector('#play-featured').addEventListener('click', openPlayer);
 document.querySelectorAll('[data-close-player]').forEach((element) => element.addEventListener('click', closePlayer));
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !player.hidden) closePlayer(); });
+
+function openInstallModal() {
+  installModal.hidden = false;
+  document.body.classList.add('player-open');
+  installModal.querySelector('.install-close').focus();
+}
+
+function closeInstallModal() {
+  installModal.hidden = true;
+  document.body.classList.remove('player-open');
+}
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  installPrompt = event;
+});
+
+window.addEventListener('appinstalled', () => {
+  installPrompt = null;
+  installStatus.textContent = 'netvistastudio is installed on your computer.';
+});
+
+document.querySelector('#open-install').addEventListener('click', openInstallModal);
+document.querySelectorAll('[data-close-install]').forEach((element) => element.addEventListener('click', closeInstallModal));
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !installModal.hidden) closeInstallModal(); });
+document.querySelectorAll('[data-install-platform]').forEach((button) => {
+  button.addEventListener('click', async () => {
+    const platform = button.dataset.installPlatform;
+    if (!installPrompt) {
+      installStatus.textContent = `${platform}: open this site in Chrome${platform === 'Windows' ? ' or Edge' : ''}, then choose Install from the address bar.`;
+      return;
+    }
+    await installPrompt.prompt();
+    const choice = await installPrompt.userChoice;
+    installStatus.textContent = choice.outcome === 'accepted' ? 'Installing netvistastudio now.' : 'Installation was cancelled.';
+    installPrompt = null;
+  });
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+}

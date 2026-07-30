@@ -49,6 +49,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--red-light); out
 .button-primary:hover { background: #e6e6e6; }
 .button-secondary { background: rgba(109,109,110,.7); }
 .button-secondary:hover { background: rgba(130,130,131,.85); }
+.button-download { border: 1px solid rgba(255,255,255,.35); background: rgba(8,9,11,.32); }
+.button-download:hover { background: rgba(255,255,255,.14); }
 .hero-caption { position: absolute; right: var(--gutter); bottom: 48px; display: flex; align-items: center; gap: 9px; color: var(--muted); font: 10px var(--mono); letter-spacing: 1px; text-transform: uppercase; }
 .hero-caption i { display: block; width: 72px; height: 2px; background: linear-gradient(90deg, var(--red), rgba(255,255,255,.2)); }
 .hero-caption em { margin-left: 11px; color: #ddd; font-style: normal; }
@@ -117,6 +119,24 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--red-light); out
 .player-close:hover { background: rgba(255,255,255,.2); }
 .player-frame { aspect-ratio: 16 / 9; background: #000; }
 .player-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+.install-modal[hidden] { display: none; }
+.install-modal { position: fixed; inset: 0; z-index: 55; display: grid; padding: 24px; place-items: center; }
+.install-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.82); backdrop-filter: blur(8px); }
+.install-dialog { position: relative; z-index: 1; width: min(100%, 540px); padding: 28px; border: 1px solid rgba(255,255,255,.14); border-radius: 8px; background: #17181d; box-shadow: 0 30px 90px rgba(0,0,0,.7); }
+.install-heading { position: relative; padding-right: 46px; }
+.install-heading .eyebrow { margin-bottom: 10px; }
+.install-heading h2 { margin: 0; font: 44px/.9 var(--display); }
+.install-close { position: absolute; top: 0; right: 0; width: 32px; height: 32px; padding: 0; border-radius: 50%; background: rgba(255,255,255,.1); font-size: 25px; line-height: 1; }
+.install-close:hover { background: rgba(255,255,255,.2); }
+.install-copy { margin: 18px 0 24px; color: var(--muted); line-height: 1.55; }
+.install-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.install-option { display: flex; align-items: center; gap: 12px; min-height: 82px; padding: 14px; border: 1px solid rgba(255,255,255,.13); border-radius: 5px; background: #101115; text-align: left; transition: background .2s, border-color .2s, transform .2s; }
+.install-option:hover { border-color: var(--red-light); background: rgba(229,9,20,.11); transform: translateY(-2px); }
+.install-option strong, .install-option small { display: block; }
+.install-option strong { margin-bottom: 4px; font-size: 14px; }
+.install-option small { color: var(--muted); font-size: 11px; }
+.platform-symbol { width: 29px; color: #fff; font-size: 27px; text-align: center; }
+.install-status { min-height: 20px; margin: 18px 0 0; color: var(--muted); font-size: 12px; }
 
 @media (max-width: 820px) { .primary-nav { display: none; } }
 @media (max-width: 640px) {
@@ -138,5 +158,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--red-light); out
   .player { padding: 10px; }
   .player-bar { min-height: 48px; padding-inline: 14px; }
   .player-bar h2 { font-size: 13px; }
+  .install-modal { padding: 14px; }
+  .install-dialog { padding: 22px; }
+  .install-options { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
