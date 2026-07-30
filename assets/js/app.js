@@ -31,10 +31,10 @@ function showToast(message) {
 }
 
 function makeCard(item, wide) {
-  const [title, seed, year, match, rating, progress, isVideo, itemVideoUrl, released = true] = item;
+  const [title, seed, year, match, rating, progress, isVideo, itemVideoUrl, released = Boolean(isVideo)] = item;
   const card = document.createElement('button');
   card.type = 'button';
-  card.className = `card${wide ? ' wide' : ''}`;
+  card.className = `card${wide ? ' wide' : ''}${released ? '' : ' is-unreleased'}`;
   card.setAttribute('aria-label', `Open ${title}`);
   const image = document.createElement('img');
   image.src = `https://picsum.photos/seed/${seed}/${wide ? '620/350' : '440/660'}`;
@@ -45,6 +45,12 @@ function makeCard(item, wide) {
   info.innerHTML = `<span class="card-title"></span><span class="card-meta"><span class="match">${match}% match</span><span>${year}</span><span class="rating">${rating}</span></span>`;
   info.querySelector('.card-title').textContent = title;
   card.append(image, info);
+  if (!released) {
+    const state = document.createElement('span');
+    state.className = 'card-state';
+    state.textContent = 'Coming soon';
+    card.appendChild(state);
+  }
   if (progress) { card.insertAdjacentHTML('beforeend', `<span class="progress" aria-label="${progress}% watched"><span style="width:${progress}%"></span></span>`); }
   card.addEventListener('click', () => {
     if (!released) return showToast('This video is not out yet.');

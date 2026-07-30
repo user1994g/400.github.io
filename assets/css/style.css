@@ -88,6 +88,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--red-light); out
 .card img { display: block; width: 100%; height: 100%; object-fit: cover; filter: brightness(.8) saturate(.9); transition: filter .25s; }
 .card::after { position: absolute; inset: 0; background: linear-gradient(transparent 36%, rgba(5,5,7,.94)); content: ''; opacity: 0; transition: opacity .25s; }
 .card-info { position: absolute; right: 14px; bottom: 13px; left: 14px; z-index: 1; transform: translateY(8px); opacity: 0; transition: opacity .25s, transform .25s; }
+.card-state { position: absolute; top: 10px; left: 10px; z-index: 2; padding: 5px 7px; border-radius: 3px; background: rgba(8,9,11,.86); color: #fff; font: 9px var(--mono); letter-spacing: .5px; text-transform: uppercase; }
 .card-title { margin-bottom: 6px; color: #fff; font-size: 14px; font-weight: 700; }
 .card-meta { display: flex; gap: 8px; align-items: center; color: var(--muted); font: 10px var(--mono); }
 .card-meta .match { color: #55d77b; }
