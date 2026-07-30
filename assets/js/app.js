@@ -160,21 +160,26 @@ window.addEventListener('appinstalled', () => {
   installStatus.textContent = 'netvistastudio is installed on your computer.';
 });
 
-document.querySelector('#open-install').addEventListener('click', openInstallModal);
+async function requestInstall(platform) {
+  if (!installPrompt) {
+    if (!platform) return openInstallModal();
+    installStatus.textContent = `${platform}: open this site in Chrome${platform === 'Windows' ? ' or Edge' : ''}, then choose Install from the address bar.`;
+    return;
+  }
+
+  await installPrompt.prompt();
+  const choice = await installPrompt.userChoice;
+  const message = choice.outcome === 'accepted' ? 'Installing netvistastudio now.' : 'Installation was cancelled.';
+  if (installModal.hidden) showToast(message);
+  else installStatus.textContent = message;
+  installPrompt = null;
+}
+
+document.querySelector('#open-install').addEventListener('click', () => requestInstall());
 document.querySelectorAll('[data-close-install]').forEach((element) => element.addEventListener('click', closeInstallModal));
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !installModal.hidden) closeInstallModal(); });
 document.querySelectorAll('[data-install-platform]').forEach((button) => {
-  button.addEventListener('click', async () => {
-    const platform = button.dataset.installPlatform;
-    if (!installPrompt) {
-      installStatus.textContent = `${platform}: open this site in Chrome${platform === 'Windows' ? ' or Edge' : ''}, then choose Install from the address bar.`;
-      return;
-    }
-    await installPrompt.prompt();
-    const choice = await installPrompt.userChoice;
-    installStatus.textContent = choice.outcome === 'accepted' ? 'Installing netvistastudio now.' : 'Installation was cancelled.';
-    installPrompt = null;
-  });
+  button.addEventListener('click', () => requestInstall(button.dataset.installPlatform));
 });
 
 if ('serviceWorker' in navigator) {
