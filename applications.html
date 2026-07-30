@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090b">
+  <meta name="description" content="Apply to work with netvistastudio.">
+  <title>Applications — netvistastudio</title>
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/applications.css">
+</head>
+<body>
+  <header class="site-header" id="site-header">
+    <a class="brand" href="index.html#top" aria-label="netvistastudio home">netvistastudio</a>
+    <nav class="primary-nav" aria-label="Primary navigation">
+      <a href="index.html#top">Home</a>
+      <a href="index.html#series">Series</a>
+      <a href="index.html#films">Films</a>
+      <a href="index.html#new-releases">New &amp; Dark</a>
+      <a href="index.html#my-list">My List</a>
+      <a class="is-active" href="applications.html">Applications</a>
+    </nav>
+    <div class="header-actions">
+      <button class="header-icon" id="applications-search" type="button" aria-label="Search"><span aria-hidden="true">⌕</span></button>
+    </div>
+  </header>
+
+  <main class="application-page">
+    <section class="application-intro" aria-labelledby="application-title">
+      <p class="eyebrow">JOIN THE STUDIO</p>
+      <h1 id="application-title">Applications</h1>
+      <p>Bring us the stories that stay with people after the screen goes dark. Tell us what you do, what you want to make, and how we can reach you.</p>
+    </section>
+
+    <form class="application-form" id="application-form" action="https://formspree.io/f/mqerjdae" method="POST">
+      <input type="hidden" name="_subject" value="New netvistastudio application">
+      <label>Name <input name="name" type="text" autocomplete="name" required></label>
+      <label>Email <input name="email" type="email" autocomplete="email" required></label>
+      <label>What are you applying for? <input name="role" type="text" placeholder="Writer, director, editor…" required></label>
+      <label>Portfolio or website <input name="portfolio" type="url" placeholder="https://" autocomplete="url"></label>
+      <label>Tell us about your work <textarea name="message" rows="7" required></textarea></label>
+      <button class="submit-button" type="submit">Send application <span aria-hidden="true">↗</span></button>
+      <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+
+  <footer class="application-footer">NETVISTASTUDIO · Stories after dark · © 2026</footer>
+  <script src="assets/js/applications.js" defer></script>
+</body>
+</html>
