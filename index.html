@@ -175,8 +175,7 @@
   /* ---------- HERO ---------- */
   .hero {
     position: relative;
-    height: 92vh;
-    min-height: 560px;
+    min-height: 82vh;
     display: flex;
     align-items: flex-end;
     overflow: hidden;
@@ -201,7 +200,7 @@
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(180deg, rgba(10, 10, 13, 0.15) 0%, rgba(10, 10, 13, 0.35) 45%, var(--bg) 96%),
+      linear-gradient(180deg, rgba(10, 10, 13, 0.15) 0%, rgba(10, 10, 13, 0.35) 45%, var(--bg) 98%),
       linear-gradient(90deg, rgba(10, 10, 13, 0.92) 0%, rgba(10, 10, 13, 0.35) 46%, rgba(10, 10, 13, 0.05) 70%);
   }
 
@@ -217,7 +216,7 @@
   .hero-content {
     position: relative;
     z-index: 2;
-    padding: 0 4.5vw 7vw;
+    padding: 120px 4.5vw clamp(100px, 12vw, 160px);
     max-width: 640px;
   }
 
@@ -240,7 +239,7 @@
 
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(42px, 7vw, 84px);
+    font-size: clamp(42px, 6.5vw, 84px);
     line-height: 0.95;
     letter-spacing: 1px;
     margin-bottom: 18px;
@@ -321,12 +320,12 @@
   .rows {
     position: relative;
     z-index: 3;
-    margin-top: -9vw;
+    margin-top: clamp(-80px, -6vw, -40px);
     padding-bottom: 80px;
   }
 
   .row {
-    margin-bottom: 44px;
+    margin-bottom: 36px;
     position: relative;
     transition: z-index 0.3s ease;
   }
@@ -360,7 +359,6 @@
     position: relative;
   }
 
-  /* Padding prevents card hover scaling from clipping inside scroll area */
   .row-track {
     display: flex;
     gap: 12px;
@@ -413,7 +411,7 @@
   .card {
     position: relative;
     flex: 0 0 auto;
-    width: 230px;
+    width: 220px;
     aspect-ratio: 2/3;
     border-radius: 6px;
     overflow: hidden;
@@ -424,7 +422,7 @@
   }
 
   .card.wide {
-    width: 320px;
+    width: 310px;
     aspect-ratio: 16/9;
   }
 
@@ -486,7 +484,6 @@
     opacity: 1;
   }
 
-  /* Progress Bar */
   .progress-bar {
     position: absolute;
     left: 0;
@@ -504,10 +501,11 @@
   }
 
   @media (max-width: 640px) {
-    .card { width: 150px; }
-    .card.wide { width: 220px; }
-    .hero { height: 80vh; }
-    .rows { margin-top: -22vw; }
+    .card { width: 140px; }
+    .card.wide { width: 210px; }
+    .hero { min-height: 70vh; }
+    .hero-content { padding-bottom: 80px; }
+    .rows { margin-top: -30px; }
   }
 
   /* ---------- FOOTER ---------- */
@@ -774,7 +772,6 @@ rows.forEach(row => {
   section.appendChild(wrap);
   rowsEl.appendChild(section);
 
-  // Initial arrow check
   requestAnimationFrame(updateArrows);
 });
 
