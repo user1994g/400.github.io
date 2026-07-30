@@ -1,11 +1,475 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>netvistastudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  :root{
+    --bg:#0a0a0d;
+    --bg-elevated:#141317;
+    --bg-card:#1b1a1f;
+    --accent:#c11119;
+    --accent-glow:#ff3b44;
+    --text:#f2f0eb;
+    --text-muted:#9b98a3;
+    --border:rgba(255,255,255,.08);
+    --font-display:'Bebas Neue', sans-serif;
+    --font-body:'DM Sans', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--accent);color:#fff;}
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+
+  :focus-visible{outline:2px solid var(--accent-glow);outline-offset:3px;}
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 4.5vw;
+    transition:background .4s ease, padding .4s ease, backdrop-filter .4s ease;
+  }
+  .nav.scrolled{
+    background:rgba(10,10,13,.88);
+    backdrop-filter:blur(14px);
+    padding:14px 4.5vw;
+    border-bottom:1px solid var(--border);
+  }
+  .nav-left{display:flex;align-items:center;gap:40px;}
+  .logo{
+    font-family:var(--font-display);
+    font-size:28px;
+    letter-spacing:3px;
+    color:var(--accent);
+    display:flex;align-items:center;gap:8px;
+  }
+  .logo::before{
+    content:'';
+    width:9px;height:9px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 12px 2px var(--accent-glow);
+  }
+  .nav-links{display:flex;gap:26px;list-style:none;}
+  .nav-links a{
+    font-size:14px;color:var(--text-muted);
+    transition:color .25s ease;
+    position:relative;
+  }
+  .nav-links a:hover, .nav-links a.active{color:var(--text);}
+  .nav-links a.active::after{
+    content:'';position:absolute;left:0;right:0;bottom:-8px;height:2px;background:var(--accent);
+  }
+  .nav-right{display:flex;align-items:center;gap:22px;}
+  .icon-btn{
+    width:20px;height:20px;color:var(--text);opacity:.85;transition:opacity .2s ease;
+  }
+  .icon-btn:hover{opacity:1;}
+  .avatar{
+    width:32px;height:32px;border-radius:6px;
+    background:linear-gradient(135deg,#c11119,#3a0d10);
+    border:1px solid var(--border);
+  }
+  @media (max-width:820px){
+    .nav-links{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    height:92vh;min-height:560px;
+    display:flex;align-items:flex-end;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;
+    background-image:url('https://picsum.photos/seed/nocturne-hollow/1600/1000');
+    background-size:cover;background-position:center 30%;
+    filter:grayscale(.35) saturate(1.15) contrast(1.12) brightness(.72);
+    animation:kenburns 26s ease-in-out infinite alternate;
+  }
+  @keyframes kenburns{
+    from{transform:scale(1);}
+    to{transform:scale(1.09);}
+  }
+  .hero-bg::after{content:'';}
+  .hero-scrim{
+    position:absolute;inset:0;
+    background:
+      linear-gradient(180deg, rgba(10,10,13,.15) 0%, rgba(10,10,13,.35) 45%, var(--bg) 96%),
+      linear-gradient(90deg, rgba(10,10,13,.92) 0%, rgba(10,10,13,.35) 46%, rgba(10,10,13,.05) 70%);
+  }
+  .grain{
+    position:absolute;inset:0;opacity:.05;mix-blend-mode:overlay;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .hero-content{
+    position:relative;z-index:2;
+    padding:0 4.5vw 7vw;
+    max-width:640px;
+  }
+  .hero-eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;letter-spacing:2px;color:var(--accent-glow);
+    text-transform:uppercase;margin-bottom:14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .hero-eyebrow::before{content:'▸';color:var(--accent);}
+  .hero-title{
+    font-family:var(--font-display);
+    font-size:clamp(42px, 7vw, 84px);
+    line-height:.95;letter-spacing:1px;
+    margin-bottom:18px;
+    text-shadow:0 4px 30px rgba(0,0,0,.5);
+  }
+  .hero-meta{
+    display:flex;align-items:center;gap:14px;margin-bottom:18px;
+    font-family:var(--font-mono);font-size:13px;color:var(--text-muted);
+  }
+  .match{color:#5fd67a;font-weight:500;}
+  .badge{
+    border:1px solid var(--border);padding:2px 7px;border-radius:3px;font-size:11px;
+  }
+  .hero-desc{
+    font-size:15.5px;line-height:1.65;color:#d8d6d2;
+    margin-bottom:30px;
+    max-width:520px;
+  }
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:flex;align-items:center;gap:10px;
+    padding:13px 26px;border-radius:4px;
+    font-family:var(--font-body);font-weight:700;font-size:14.5px;
+    transition:transform .18s ease, background .2s ease, box-shadow .2s ease;
+  }
+  .btn-play{background:var(--text);color:#111;}
+  .btn-play:hover{background:#fff;transform:translateY(-1px);}
+  .btn-info{background:rgba(120,120,130,.28);color:var(--text);backdrop-filter:blur(6px);}
+  .btn-info:hover{background:rgba(120,120,130,.42);transform:translateY(-1px);}
+
+  /* ---------- ROWS ---------- */
+  .rows{position:relative;z-index:3;margin-top:-9vw;padding-bottom:80px;}
+  .row{margin-bottom:44px;}
+  .row-head{
+    display:flex;align-items:baseline;gap:12px;
+    padding:0 4.5vw;margin-bottom:14px;
+  }
+  .row-title{font-size:19px;font-weight:700;letter-spacing:.2px;}
+  .row-sub{font-family:var(--font-mono);font-size:11.5px;color:var(--text-muted);letter-spacing:.5px;}
+
+  .row-track-wrap{position:relative;}
+  .row-track{
+    display:flex;gap:10px;
+    padding:4px 4.5vw;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+  }
+  .row-track::-webkit-scrollbar{display:none;}
+
+  .row-arrow{
+    position:absolute;top:0;bottom:0;width:56px;z-index:5;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(90deg, var(--bg), transparent);
+    opacity:0;transition:opacity .2s ease;
+  }
+  .row-arrow.right{right:0;left:auto;background:linear-gradient(-90deg, var(--bg), transparent);}
+  .row-track-wrap:hover .row-arrow{opacity:1;}
+  .row-arrow svg{width:22px;height:22px;}
+
+  .card{
+    position:relative;flex:0 0 auto;
+    width:230px;aspect-ratio:2/3;
+    border-radius:6px;overflow:hidden;
+    background:var(--bg-card);
+    cursor:pointer;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1), z-index 0s;
+  }
+  .card img{
+    width:100%;height:100%;object-fit:cover;
+    filter:grayscale(.25) saturate(1.1) contrast(1.08) brightness(.85);
+    transition:filter .3s ease;
+    display:block;
+  }
+  .card-overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, transparent 40%, rgba(8,8,10,.95) 100%);
+    display:flex;flex-direction:column;justify-content:flex-end;
+    padding:14px;
+    opacity:0;transition:opacity .25s ease;
+  }
+  .card-overlay .ct{font-weight:700;font-size:14px;margin-bottom:6px;line-height:1.2;}
+  .card-overlay .cm{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--text-muted);
+    display:flex;gap:8px;align-items:center;
+  }
+  .card-overlay .cm .match{color:#5fd67a;}
+  .card:hover{transform:scale(1.13) translateY(-6px);z-index:10;box-shadow:0 20px 45px rgba(0,0,0,.6);}
+  .card:hover img{filter:grayscale(0) saturate(1.15) contrast(1.05) brightness(1);}
+  .card:hover .card-overlay{opacity:1;}
+
+  .card.wide{width:320px;}
+
+  /* continue watching progress */
+  .progress-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.15);}
+  .progress-bar i{display:block;height:100%;background:var(--accent);}
+
+  @media (max-width:640px){
+    .card{width:150px;}
+    .card.wide{width:220px;}
+    .hero{height:80vh;}
+    .rows{margin-top:-22vw;}
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--border);
+    padding:50px 4.5vw 60px;
+    color:var(--text-muted);font-size:13px;
+  }
+  .footer-cols{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+    max-width:900px;margin-bottom:36px;
+  }
+  .footer-cols a{display:block;margin-bottom:12px;transition:color .2s;}
+  .footer-cols a:hover{color:var(--text);}
+  .footer-bottom{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.3px;}
+  @media (max-width:640px){.footer-cols{grid-template-columns:repeat(2,1fr);}}
+</style>
 </head>
 <body>
-  <H1>this site is not made yet come back soon</H1>
+
+<nav class="nav" id="nav">
+  <div class="nav-left">
+    <div class="logo">NOCTURNE</div>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Series</a></li>
+      <li><a href="#">Films</a></li>
+      <li><a href="#">New &amp; Dark</a></li>
+      <li><a href="#">My List</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+    <div class="avatar"></div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-scrim"></div>
+  <div class="grain"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" id="hero-eyebrow">Nocturne Original</div>
+    <h1 class="hero-title" id="hero-title">Midnight Hollow</h1>
+    <div class="hero-meta" id="hero-meta">
+      <span class="match">98% match</span>
+      <span>2026</span>
+      <span class="badge">15</span>
+      <span>3 Seasons</span>
+      <span class="badge">Atmospheric</span>
+    </div>
+    <p class="hero-desc" id="hero-desc">
+      A watchmaker's daughter inherits a crumbling estate at the edge of a fog-locked town —
+      and the debts, secrets, and quiet hauntings that come with it.
+    </p>
+    <div class="hero-actions">
+      <button class="btn btn-play">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Play
+      </button>
+      <button class="btn btn-info">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        More Info
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="rows" id="rows"></main>
+
+<footer>
+  <div class="footer-cols">
+    <div>
+      <a href="#">Audio &amp; Subtitles</a>
+      <a href="#">Audio Description</a>
+      <a href="#">Help Centre</a>
+      <a href="#">Gift Cards</a>
+    </div>
+    <div>
+      <a href="#">Media Centre</a>
+      <a href="#">Investor Relations</a>
+      <a href="#">Jobs</a>
+      <a href="#">Terms of Use</a>
+    </div>
+    <div>
+      <a href="#">Privacy</a>
+      <a href="#">Cookie Preferences</a>
+      <a href="#">Corporate Info</a>
+      <a href="#">Contact Us</a>
+    </div>
+    <div>
+      <a href="#">Devices</a>
+      <a href="#">Only on Nocturne</a>
+      <a href="#">Speed Test</a>
+      <a href="#">Legal Notices</a>
+    </div>
+  </div>
+  <div class="footer-bottom">NOCTURNE — demo interface, all titles fictional · © 2026</div>
+</footer>
+
+<script>
+// ---------- data ----------
+const rows = [
+  {
+    title: "Continue Watching",
+    sub: "PICK UP WHERE YOU LEFT OFF",
+    wide: true,
+    items: [
+      {t:"The Marionette", seed:"noc-marionette", y:2025, m:96, progress:64},
+      {t:"Ashgrove", seed:"noc-ashgrove", y:2024, m:88, progress:22},
+      {t:"Static Bloom", seed:"noc-staticbloom", y:2026, m:91, progress:80},
+      {t:"The Second Room", seed:"noc-secondroom", y:2023, m:85, progress:12},
+      {t:"Low Tide", seed:"noc-lowtide", y:2025, m:93, progress:47},
+    ]
+  },
+  {
+    title: "Trending Now",
+    sub: "TOP 10 THIS WEEK",
+    items: [
+      {t:"Hollow Coast", seed:"noc-hollowcoast", y:2026, m:97},
+      {t:"Nightjar", seed:"noc-nightjar", y:2025, m:90},
+      {t:"Paper Moths", seed:"noc-papermoths", y:2024, m:94},
+      {t:"The Understudy", seed:"noc-understudy", y:2026, m:89},
+      {t:"Glass Orchard", seed:"noc-glassorchard", y:2023, m:92},
+      {t:"The Cartographer's Daughter", seed:"noc-cartographer", y:2025, m:87},
+      {t:"Ember & Rust", seed:"noc-emberrust", y:2024, m:95},
+    ]
+  },
+  {
+    title: "Dark & Atmospheric",
+    sub: "MOODY · SLOW-BURN · GOTHIC",
+    items: [
+      {t:"Wraithlight", seed:"noc-wraithlight", y:2025, m:93},
+      {t:"The Widow's Clock", seed:"noc-widowsclock", y:2022, m:90},
+      {t:"Blackthorn House", seed:"noc-blackthorn", y:2026, m:96},
+      {t:"Crow Season", seed:"noc-crowseason", y:2024, m:88},
+      {t:"Velvet Ruin", seed:"noc-velvetruin", y:2025, m:91},
+      {t:"The Taxidermist", seed:"noc-taxidermist", y:2023, m:94},
+    ]
+  },
+  {
+    title: "Award-Worthy Dramas",
+    sub: "CRITICALLY ACCLAIMED",
+    items: [
+      {t:"Salt & Bone", seed:"noc-saltbone", y:2024, m:97},
+      {t:"The Long Recess", seed:"noc-longrecess", y:2025, m:92},
+      {t:"Orchard Street", seed:"noc-orchardstreet", y:2023, m:89},
+      {t:"Grey Harbour", seed:"noc-greyharbour", y:2026, m:95},
+      {t:"The Understudy Pt. II", seed:"noc-understudy2", y:2026, m:90},
+    ]
+  },
+  {
+    title: "New Releases",
+    sub: "JUST ADDED",
+    items: [
+      {t:"Static Bloom", seed:"noc-staticbloom2", y:2026, m:91},
+      {t:"Faultlines", seed:"noc-faultlines", y:2026, m:86},
+      {t:"The Quiet Room", seed:"noc-quietroom", y:2026, m:93},
+      {t:"Hollow Coast: Aftermath", seed:"noc-hollowcoast2", y:2026, m:97},
+      {t:"Nightjar: Season Two", seed:"noc-nightjar2", y:2026, m:90},
+    ]
+  }
+];
+
+const ratings = ["12","15","18","PG"];
+const rowsEl = document.getElementById('rows');
+
+rows.forEach((row, ri) => {
+  const section = document.createElement('section');
+  section.className = 'row';
+
+  const head = document.createElement('div');
+  head.className = 'row-head';
+  head.innerHTML = `<span class="row-title">${row.title}</span><span class="row-sub">${row.sub}</span>`;
+  section.appendChild(head);
+
+  const wrap = document.createElement('div');
+  wrap.className = 'row-track-wrap';
+
+  const track = document.createElement('div');
+  track.className = 'row-track';
+
+  row.items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'card' + (row.wide ? ' wide' : '');
+    const rating = ratings[Math.floor(Math.random()*ratings.length)];
+    card.innerHTML = `
+      <img loading="lazy" src="https://picsum.photos/seed/${item.seed}/400/600" alt="${item.t}">
+      <div class="card-overlay">
+        <div class="ct">${item.t}</div>
+        <div class="cm"><span class="match">${item.m}% match</span><span>${item.y}</span><span class="badge">${rating}</span></div>
+      </div>
+      ${item.progress ? `<div class="progress-bar"><i style="width:${item.progress}%"></i></div>` : ''}
+    `;
+    track.appendChild(card);
+  });
+
+  wrap.appendChild(track);
+
+  const arrowL = document.createElement('button');
+  arrowL.className = 'row-arrow left';
+  arrowL.setAttribute('aria-label', 'Scroll left');
+  arrowL.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>`;
+  arrowL.style.left = '0';
+  arrowL.addEventListener('click', () => track.scrollBy({left:-track.clientWidth*0.85, behavior:'smooth'}));
+
+  const arrowR = document.createElement('button');
+  arrowR.className = 'row-arrow right';
+  arrowR.setAttribute('aria-label', 'Scroll right');
+  arrowR.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>`;
+  arrowR.addEventListener('click', () => track.scrollBy({left:track.clientWidth*0.85, behavior:'smooth'}));
+
+  wrap.appendChild(arrowL);
+  wrap.appendChild(arrowR);
+  section.appendChild(wrap);
+  rowsEl.appendChild(section);
+});
+
+// ---------- nav scroll state ----------
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ---------- entrance animation ----------
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (window.gsap && !reduceMotion) {
+  gsap.set(['#hero-eyebrow','#hero-title','#hero-meta','#hero-desc','.hero-actions'], {opacity:0, y:24});
+  gsap.timeline({defaults:{ease:'power3.out'}})
+    .to('#hero-eyebrow', {opacity:1, y:0, duration:.6}, .1)
+    .to('#hero-title', {opacity:1, y:0, duration:.8}, .2)
+    .to('#hero-meta', {opacity:1, y:0, duration:.6}, .45)
+    .to('#hero-desc', {opacity:1, y:0, duration:.6}, .55)
+    .to('.hero-actions', {opacity:1, y:0, duration:.6}, .68);
+} else {
+  document.querySelectorAll('#hero-eyebrow,#hero-title,#hero-meta,#hero-desc,.hero-actions').forEach(el=>el.style.opacity=1);
+}
+</script>
 </body>
 </html>
