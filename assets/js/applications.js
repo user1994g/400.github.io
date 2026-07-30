@@ -4,7 +4,7 @@ const header = document.querySelector('#site-header');
 
 window.addEventListener('scroll', () => header.classList.toggle('is-scrolled', window.scrollY > 32), { passive: true });
 document.querySelector('#applications-search').addEventListener('click', () => {
-  window.location.href = 'index.html#rows';
+  window.location.href = '/#rows';
 });
 
 form.addEventListener('submit', async (event) => {
