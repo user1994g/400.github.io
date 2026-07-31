@@ -259,3 +259,10 @@ function openDownloadDialog(trigger) {
 document.querySelectorAll('[data-open-install]').forEach((button) => {
   button.addEventListener('click', (event) => openDownloadDialog(event.currentTarget));
 });
+
+installRoot.querySelectorAll('.install-option').forEach((link) => {
+  link.addEventListener('click', () => {
+    installDialog.close();
+    showToast('Your download is starting.');
+  });
+});
