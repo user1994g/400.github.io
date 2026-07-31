@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" href="../assets/images/photos/netvistastudio-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/applications.css">
   <script type="application/ld+json">
@@ -29,7 +29,8 @@
 <body>
   <header class="site-header" id="site-header">
     <a class="brand" href="/" aria-label="netvistastudio home">netvistastudio</a>
-    <nav class="primary-nav" aria-label="Primary navigation">
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Browse <span aria-hidden="true">⌄</span></button>
+    <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
       <a href="/">Home</a>
       <a href="/#series">Series</a>
       <a href="/#films">Films</a>
@@ -44,13 +45,19 @@
 
   <main class="application-page">
     <section class="application-intro" aria-labelledby="application-title">
-      <p class="eyebrow">JOIN THE STUDIO</p>
+      <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> APPLICATIONS ARE OPEN</p>
       <h1 id="application-title">Applications</h1>
       <p>Bring us the stories that stay with people after the screen goes dark. Tell us what you do, what you want to make, and how we can reach you.</p>
+      <div class="application-steps" aria-label="Application process">
+        <div><span>01</span><p><strong>Tell us your craft</strong><small>Share the role and stories that interest you.</small></p></div>
+        <div><span>02</span><p><strong>Show us your work</strong><small>Add a portfolio link if you have one.</small></p></div>
+        <div><span>03</span><p><strong>We review it</strong><small>The studio will contact suitable applicants.</small></p></div>
+      </div>
     </section>
 
     <form class="application-form" id="application-form" action="https://formspree.io/f/mqerjdae" method="POST">
       <input type="hidden" name="_subject" value="New netvistastudio application">
+      <div class="form-heading"><p class="eyebrow">YOUR APPLICATION</p><h2>Start something unforgettable.</h2><p>Fields marked with * are required.</p></div>
       <label>Name <input name="name" type="text" autocomplete="name" required></label>
       <label>Email <input name="email" type="email" autocomplete="email" required></label>
       <label>What are you applying for? <input name="role" type="text" placeholder="Writer, director, editor…" required></label>

@@ -24,7 +24,7 @@
   <meta name="twitter:image:alt" content="netvistastudio logo">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
   <script type="application/ld+json">
     {
@@ -60,7 +60,8 @@
 <body>
   <header class="site-header" id="site-header">
     <a class="brand" href="/" aria-label="netvistastudio home">netvistastudio</a>
-    <nav class="primary-nav" aria-label="Primary navigation">
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Browse <span aria-hidden="true">⌄</span></button>
+    <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
       <a class="is-active" href="/">Home</a>
       <a href="#series">Series</a>
       <a href="#films">Films</a>
@@ -89,6 +90,7 @@
         <div class="hero-actions">
           <button class="button button-primary" id="play-featured" type="button"><span aria-hidden="true">▶</span> Play</button>
           <button class="button button-secondary" id="featured-info" type="button"><span aria-hidden="true">ⓘ</span> More Info</button>
+          <button class="button button-list" id="featured-list" type="button"><span aria-hidden="true">＋</span> My List</button>
           <button class="button button-download" id="open-install" type="button"><span aria-hidden="true">↓</span> Get the app</button>
         </div>
       </div>
@@ -99,7 +101,7 @@
 
   </main>
 
-  <footer class="site-footer" id="my-list">
+  <footer class="site-footer">
     <p class="copyright">NETVISTASTUDIO — demo interface, all titles fictional · © 2026</p>
   </footer>
 
@@ -121,6 +123,27 @@
         <button class="install-option" type="button" data-install-platform="Windows"><span class="platform-symbol" aria-hidden="true">⊞</span><span><strong>Get for Windows</strong><small>Install with Chrome or Edge</small></span></button>
       </div>
       <p class="install-status" id="install-status" role="status" aria-live="polite">Choose your computer to install the app.</p>
+    </section>
+  </div>
+  <div class="details-modal" id="details-modal" hidden>
+    <div class="details-backdrop" data-close-details></div>
+    <section class="details-dialog" role="dialog" aria-modal="true" aria-labelledby="details-title">
+      <div class="details-art" id="details-art">
+        <button class="details-close" type="button" data-close-details aria-label="Close title details">×</button>
+        <div class="details-art-shade"></div>
+        <div class="details-heading">
+          <p class="eyebrow">NETVISTASTUDIO ORIGINAL</p>
+          <h2 id="details-title">The dark echo’s of 1939</h2>
+        </div>
+      </div>
+      <div class="details-body">
+        <div class="details-meta"><span class="match" id="details-match">98% match</span><span id="details-year">1939</span><span class="rating" id="details-rating">15</span><span id="details-format">Feature film</span></div>
+        <p id="details-description"></p>
+        <div class="details-actions">
+          <button class="button button-primary" id="details-play" type="button"><span aria-hidden="true">▶</span> Play</button>
+          <button class="button button-secondary" id="details-list" type="button"><span aria-hidden="true">＋</span> My List</button>
+        </div>
+      </div>
     </section>
   </div>
   <script src="assets/js/app.js" defer></script>
