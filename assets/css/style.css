@@ -601,6 +601,7 @@ select:focus-visible {
   border: 1px solid var(--line);
   border-radius: 7px;
   background: var(--bg-soft);
+  color: var(--text);
   text-align: left;
   transition: border-color .2s ease, background .2s ease, transform .2s ease;
 }
@@ -638,6 +639,11 @@ select:focus-visible {
   margin: 16px 0 0;
   color: var(--muted);
   font-size: 11px;
+  line-height: 1.5;
+}
+
+.is-desktop-app [data-open-install] {
+  display: none;
 }
 
 @media (max-width: 900px) {

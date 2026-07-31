@@ -1,0 +1,24 @@
+{
+  "name": "netvistastudio",
+  "productName": "netvistastudio",
+  "version": "1.0.0",
+  "description": "The official netvistastudio desktop film app.",
+  "author": "netvistastudio",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "desktop/main.js",
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "desktop": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "1.0.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "7.11.2",
+    "@electron-forge/maker-squirrel": "7.11.2",
+    "electron": "43.2.0"
+  }
+}

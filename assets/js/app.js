@@ -24,7 +24,6 @@ let detailsFilm = films[0];
 let heroTimer;
 let heroSwapTimer;
 let toastTimer;
-let installPrompt;
 
 function showToast(message) {
   toast.textContent = message;
@@ -252,43 +251,11 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && !searchPanel.hidden) setSearchOpen(false, { restoreFocus: true });
 });
 
-window.addEventListener('beforeinstallprompt', (event) => {
-  event.preventDefault();
-  installPrompt = event;
-});
-
-window.addEventListener('appinstalled', () => {
-  installPrompt = null;
-  document.querySelector('#install-status').textContent = 'netvistastudio is installed.';
-});
-
-async function requestInstall(platform, trigger) {
+function openDownloadDialog(trigger) {
   stopHero();
-  const installStatus = document.querySelector('#install-status');
-
-  if (!installPrompt) {
-    if (!platform) {
-      installStatus.textContent = 'Choose your computer to see the install option.';
-      installDialog.open(trigger);
-      return;
-    }
-    installStatus.textContent = `${platform}: open this site in Chrome${platform === 'Windows' ? ' or Edge' : ''}, then choose Install in the address bar.`;
-    return;
-  }
-
-  await installPrompt.prompt();
-  const choice = await installPrompt.userChoice;
-  const message = choice.outcome === 'accepted' ? 'Installing netvistastudio.' : 'Installation was cancelled.';
-  if (installDialog.isOpen()) installStatus.textContent = message;
-  else showToast(message);
-  installPrompt = null;
-  scheduleHero();
+  installDialog.open(trigger);
 }
 
 document.querySelectorAll('[data-open-install]').forEach((button) => {
-  button.addEventListener('click', (event) => requestInstall(null, event.currentTarget));
-});
-
-document.querySelectorAll('[data-install-platform]').forEach((button) => {
-  button.addEventListener('click', (event) => requestInstall(button.dataset.installPlatform, event.currentTarget));
+  button.addEventListener('click', (event) => openDownloadDialog(event.currentTarget));
 });

@@ -1,0 +1,98 @@
+name: Build desktop release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: macOS
+            os: macos-latest
+            arch: universal
+            artifact: netvistastudio-mac
+          - label: Windows
+            os: windows-latest
+            arch: x64
+            artifact: netvistastudio-windows
+
+    steps:
+      - name: Check out the app
+        uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install app dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Package macOS app
+        if: runner.os == 'macOS'
+        run: pnpm package -- --arch=${{ matrix.arch }}
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+
+      - name: Build Windows installer
+        if: runner.os == 'Windows'
+        run: pnpm make -- --arch=${{ matrix.arch }}
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+
+      - name: Prepare macOS download
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          mkdir -p release
+          app_path="$(find out -type d -name 'netvistastudio.app' -print -quit)"
+          test -n "$app_path"
+          ditto -c -k --sequesterRsrc --keepParent "$app_path" release/netvistastudio-mac.zip
+
+      - name: Prepare Windows download
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path release
+          $installer = Get-ChildItem -Path out/make -Recurse -Filter '*.exe' | Select-Object -First 1
+          if (-not $installer) { throw 'Windows installer was not created.' }
+          Copy-Item $installer.FullName release/netvistastudio-windows.exe
+
+      - name: Upload desktop download
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: release/*
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download installers
+        uses: actions/download-artifact@v5
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Publish installers
+        run: gh release create "$GITHUB_REF_NAME" release-assets/* --repo "$GITHUB_REPOSITORY" --title "netvistastudio $GITHUB_REF_NAME" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}

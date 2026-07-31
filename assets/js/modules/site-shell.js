@@ -1,4 +1,14 @@
 export function initSiteShell() {
+  if (window.location.protocol === 'file:') {
+    document.querySelectorAll('a[href]').forEach((link) => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      if (href === './') link.setAttribute('href', 'index.html');
+      if (href.startsWith('applications/')) link.setAttribute('href', href.replace('applications/', 'applications/index.html'));
+      if (href.startsWith('../')) link.setAttribute('href', href.replace('../', '../index.html'));
+    });
+  }
+
   const header = document.querySelector('#site-header');
   const navToggle = document.querySelector('#nav-toggle');
   const nav = document.querySelector('#primary-nav');

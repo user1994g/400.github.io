@@ -1,4 +1,4 @@
-const CACHE_NAME = 'netvistastudio-shell-v4';
+const CACHE_NAME = 'netvistastudio-shell-v5';
 
 const APP_SHELL = [
   '/',
