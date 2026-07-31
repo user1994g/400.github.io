@@ -1,7 +1,5 @@
 allowBuilds:
   electron: true
   electron-winstaller: true
-  fs-xattr: set this to true or false
-  macos-alias: set this to true or false
 blockExoticSubdeps: false
 nodeLinker: hoisted

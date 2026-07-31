@@ -1,5 +1,8 @@
 export function initSiteShell() {
-  if (window.location.protocol === 'file:') {
+  const nativeApp = Boolean(window.Capacitor?.isNativePlatform?.());
+  if (nativeApp) document.documentElement.classList.add('is-native-app');
+
+  if (window.location.protocol === 'file:' || nativeApp) {
     document.querySelectorAll('a[href]').forEach((link) => {
       const href = link.getAttribute('href');
       if (!href) return;
@@ -67,6 +70,7 @@ export function initSiteShell() {
 }
 
 export function registerServiceWorker() {
+  if (window.Capacitor?.isNativePlatform?.()) return;
   if (!('serviceWorker' in navigator) || !window.location.protocol.startsWith('http')) return;
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
