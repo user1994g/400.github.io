@@ -89,7 +89,7 @@ function rotateFeaturedTitle() {
 
 setFeaturedTitle(featuredTitles[0], true);
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  window.setInterval(rotateFeaturedTitle, 28000);
+  window.setInterval(rotateFeaturedTitle, 18000);
 }
 
 function makeCard(item) {
