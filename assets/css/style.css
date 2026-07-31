@@ -128,21 +128,10 @@ select:focus-visible {
   display: inline-flex;
   align-items: center;
   flex: 0 0 auto;
-  gap: 9px;
   color: var(--red-bright);
   font-size: 21px;
   font-weight: 700;
   letter-spacing: -.65px;
-}
-
-.brand-mark {
-  display: grid;
-  width: 21px;
-  height: 28px;
-  place-items: center;
-  color: var(--red);
-  font: 31px/1 var(--display);
-  transform: skewY(-3deg);
 }
 
 .primary-nav {
@@ -717,12 +706,7 @@ select:focus-visible {
   }
 
   .brand {
-    gap: 6px;
     font-size: 18px;
-  }
-
-  .brand-mark {
-    display: none;
   }
 
   .header-app-button {
