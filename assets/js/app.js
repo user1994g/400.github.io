@@ -1,6 +1,6 @@
 const rows = [
   { title: 'Films', sub: 'FEATURED TONIGHT', id: 'films', items: [
-    ["The dark echo’s of 1939",'noc-dark-echoes',1939,98,'15',null,true,null,true,'https://www.brooksbychurch.co.uk/wp-content/uploads/2014/08/church-tour-293x238.jpg'], ['The Final Lesson AP 1','noc-final-lesson-ap1',2026,96,'15',null,true,'https://clip-kingdom-play.lovable.app/embed/878b4496-ab7a-47fe-8e0f-0b489311241c',true,'https://upload.wikimedia.org/wikipedia/commons/3/30/Brooksby_Hall_-_geograph.org.uk_-_584614.jpg'], ['Hollow Coast','noc-hollowcoast',2026,97,'18'], ['Paper Moths','noc-papermoths',2024,94,'12'], ['Glass Orchard','noc-glassorchard',2023,92,'PG'], ['Salt & Bone','noc-saltbone',2024,97,'15'], ['The Last Broadcast','noc-last-broadcast',2025,95,'15',null,false,null,false], ['Rooms Without Doors','noc-rooms-doors',2024,91,'12',null,false,null,false], ['Ashes at Dawn','noc-ashes-dawn',2026,94,'18',null,false,null,false], ['The Blue Hour','noc-blue-hour',2025,89,'15',null,false,null,false]
+    ["The dark echo’s of 1939",'noc-dark-echoes',1939,98,'15',null,true,null,true,'assets/images/photos/dark-echoes.jpg'], ['The Final Lesson AP 1','noc-final-lesson-ap1',2026,96,'15',null,true,'https://clip-kingdom-play.lovable.app/embed/878b4496-ab7a-47fe-8e0f-0b489311241c',true,'assets/images/photos/final-lesson.jpg'], ['Hollow Coast','noc-hollowcoast',2026,97,'18'], ['Paper Moths','noc-papermoths',2024,94,'12'], ['Glass Orchard','noc-glassorchard',2023,92,'PG'], ['Salt & Bone','noc-saltbone',2024,97,'15'], ['The Last Broadcast','noc-last-broadcast',2025,95,'15',null,false,null,false], ['Rooms Without Doors','noc-rooms-doors',2024,91,'12',null,false,null,false], ['Ashes at Dawn','noc-ashes-dawn',2026,94,'18',null,false,null,false], ['The Blue Hour','noc-blue-hour',2025,89,'15',null,false,null,false]
   ]},
   { title: 'Trending Now', sub: 'TOP 10 THIS WEEK', id: 'series', items: [
     ['Hollow Coast','noc-hollowcoast',2026,97,'18'], ['Nightjar','noc-nightjar',2025,90,'15'], ['Paper Moths','noc-papermoths',2024,94,'12'], ['The Understudy','noc-understudy',2026,89,'15'], ['Glass Orchard','noc-glassorchard',2023,92,'PG'], ["The Cartographer's Daughter",'noc-cartographer',2025,87,'12'], ['Ember & Rust','noc-emberrust',2024,95,'18']
@@ -58,7 +58,7 @@ const featuredTitles = [
     rating: '15',
     format: 'Feature film',
     description: 'A buried broadcast, a vanished town, and one voice still echoing through the static. Uncover the story that history tried to erase.',
-    image: 'https://www.brooksbychurch.co.uk/wp-content/uploads/2014/08/church-tour-293x238.jpg',
+    image: 'assets/images/photos/dark-echoes.jpg',
     videoUrl
   },
   {
@@ -68,7 +68,7 @@ const featuredTitles = [
     rating: '15',
     format: 'Feature film',
     description: 'One last class reveals a lesson no one was meant to learn. The Final Lesson AP 1 is available to watch now.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/3/30/Brooksby_Hall_-_geograph.org.uk_-_584614.jpg',
+    image: 'assets/images/photos/final-lesson.jpg',
     videoUrl: 'https://clip-kingdom-play.lovable.app/embed/878b4496-ab7a-47fe-8e0f-0b489311241c'
   }
 ];
@@ -125,10 +125,16 @@ function makeCard(item) {
   const image = document.createElement('img');
   image.src = itemImage || `https://picsum.photos/seed/${seed}/620/350`;
   image.alt = '';
-  image.loading = 'lazy';
+  image.loading = released ? 'eager' : 'lazy';
+  image.decoding = 'async';
+  image.addEventListener('error', () => {
+    image.remove();
+    card.classList.add('image-missing');
+    card.dataset.letter = title.charAt(0);
+  }, { once: true });
   const info = document.createElement('span');
   info.className = 'card-info';
-  info.innerHTML = `<span class="original-badge">ORIGINAL</span><span class="card-title"></span><span class="card-meta"><span class="match">${match}% match</span><span>${year}</span><span class="rating">${rating}</span></span>`;
+  info.innerHTML = `${released ? '<span class="original-badge">ORIGINAL</span>' : ''}<span class="card-title"></span><span class="card-meta"><span class="match">${match}% match</span><span>${year}</span><span class="rating">${rating}</span></span>`;
   info.querySelector('.card-title').textContent = title;
   card.append(image, info);
   if (!released) {
@@ -155,10 +161,15 @@ rows.forEach((row) => {
   row.items.forEach((item, index) => {
     const card = makeCard(item);
     if (row.title === 'Trending Now') {
+      card.classList.add('ranked-card-tile');
+      const wrapper = document.createElement('div');
+      wrapper.className = 'ranked-card';
       const rank = document.createElement('span');
-      rank.className = 'card-rank';
-      rank.textContent = `#${index + 1}`;
-      card.appendChild(rank);
+      rank.className = 'ranked-card-number';
+      rank.textContent = index + 1;
+      wrapper.append(rank, card);
+      track.appendChild(wrapper);
+      return;
     }
     track.appendChild(card);
   });
@@ -289,6 +300,8 @@ const filterCards = (query) => {
   document.querySelectorAll('.card').forEach((card) => {
     const match = !normalized || card.querySelector('.card-title').textContent.toLowerCase().includes(normalized);
     card.hidden = !match;
+    const rankedWrapper = card.closest('.ranked-card');
+    if (rankedWrapper) rankedWrapper.hidden = !match;
     if (match) matches += 1;
   });
   searchStatus.textContent = normalized ? `${matches} title${matches === 1 ? '' : 's'} found.` : 'Type to search the catalogue.';
