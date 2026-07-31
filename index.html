@@ -3,31 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#08090b">
-  <meta name="description" content="Watch original independent films and atmospheric series from netvistastudio, including The dark echo’s of 1939 and The Final Lesson AP 1.">
+  <meta name="theme-color" content="#08090c">
+  <meta name="description" content="Watch original independent films from netvistastudio, including The dark echo’s of 1939 and The Final Lesson AP 1.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="https://netvistastudio.com/">
-  <title>netvistastudio | Original Films &amp; Series</title>
+  <title>netvistastudio | Original Independent Films</title>
+
   <link rel="icon" type="image/png" href="assets/images/photos/netvistastudio-logo.png">
+  <link rel="apple-touch-icon" href="assets/images/brand/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
+
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="netvistastudio">
   <meta property="og:url" content="https://netvistastudio.com/">
-  <meta property="og:title" content="netvistastudio | Original Films &amp; Series">
-  <meta property="og:description" content="Watch original independent films and atmospheric series from netvistastudio.">
+  <meta property="og:title" content="netvistastudio | Original Independent Films">
+  <meta property="og:description" content="Watch original independent films and discover what netvistastudio is making next.">
   <meta property="og:image" content="https://netvistastudio.com/assets/images/photos/netvistastudio-logo.png">
   <meta property="og:image:alt" content="netvistastudio logo">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="netvistastudio | Original Films &amp; Series">
-  <meta name="twitter:description" content="Watch original independent films and atmospheric series from netvistastudio.">
+  <meta name="twitter:title" content="netvistastudio | Original Independent Films">
+  <meta name="twitter:description" content="Watch original independent films and discover what netvistastudio is making next.">
   <meta name="twitter:image" content="https://netvistastudio.com/assets/images/photos/netvistastudio-logo.png">
-  <meta name="twitter:image:alt" content="netvistastudio logo">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="assets/images/photos/dark-echoes.jpg">
   <link rel="preload" as="image" href="assets/images/photos/final-lesson.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -52,7 +57,15 @@
           "name": "The dark echo’s of 1939",
           "description": "A buried broadcast, a vanished town, and one voice still echoing through the static.",
           "image": "https://netvistastudio.com/assets/images/photos/dark-echoes.jpg",
-          "url": "https://netvistastudio.com/#top",
+          "url": "https://netvistastudio.com/#films",
+          "publisher": { "@id": "https://netvistastudio.com/#organization" }
+        },
+        {
+          "@type": "Movie",
+          "name": "The Final Lesson AP 1",
+          "description": "One last class reveals a lesson no one was meant to learn.",
+          "image": "https://netvistastudio.com/assets/images/photos/final-lesson.jpg",
+          "url": "https://netvistastudio.com/#films",
           "publisher": { "@id": "https://netvistastudio.com/#organization" }
         }
       ]
@@ -60,91 +73,176 @@
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to films</a>
+
   <header class="site-header" id="site-header">
-    <a class="brand" href="/" aria-label="netvistastudio home">netvistastudio</a>
-    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Browse <span aria-hidden="true">⌄</span></button>
+    <a class="brand" href="./" aria-label="netvistastudio home">
+      <span class="brand-mark" aria-hidden="true">N</span>
+      <span>netvistastudio</span>
+    </a>
+
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+      Browse <span aria-hidden="true">⌄</span>
+    </button>
+
     <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
-      <a class="is-active" href="/">Home</a>
-      <a href="#series">Series</a>
+      <a class="is-active" href="#top">Home</a>
       <a href="#films">Films</a>
-      <a href="#new-releases">New &amp; Dark</a>
-      <a href="/applications/">Applications</a>
+      <a href="#coming-soon">Coming Soon</a>
+      <a href="applications/">Applications</a>
     </nav>
+
     <div class="header-actions">
-      <button class="header-icon" id="search-toggle" type="button" aria-label="Search"><span aria-hidden="true">⌕</span></button>
+      <button class="icon-button" id="search-toggle" type="button" aria-label="Search titles" aria-expanded="false" aria-controls="search-panel">
+        <span aria-hidden="true">⌕</span>
+      </button>
+      <button class="header-app-button" type="button" data-open-install>
+        <span aria-hidden="true">↓</span><span>Get the app</span>
+      </button>
     </div>
   </header>
 
   <section class="search-panel" id="search-panel" aria-label="Search titles" hidden>
-    <div class="search-inner"><label for="search-input">Search Nocturne</label><button class="search-close" id="search-close" type="button" aria-label="Close search">×</button><input id="search-input" type="search" placeholder="Search films and series" autocomplete="off"><p id="search-status">Type to search the catalogue.</p></div>
+    <div class="search-inner">
+      <div>
+        <label for="search-input">Search netvistastudio</label>
+        <p id="search-status">Search available films and the upcoming slate.</p>
+      </div>
+      <input id="search-input" type="search" placeholder="Search titles" autocomplete="off">
+      <button class="icon-button search-close" id="search-close" type="button" aria-label="Close search">×</button>
+    </div>
   </section>
 
-  <main id="top">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-image" aria-hidden="true"></div>
-      <div class="hero-shade" aria-hidden="true"></div>
-      <div class="hero-inner">
-        <p class="eyebrow">NETVISTASTUDIO ORIGINAL</p>
-        <h1 id="hero-title">The dark<br>echo’s of 1939</h1>
-        <div class="hero-meta"><span class="match" id="hero-match">98% match</span><span id="hero-year">1939</span><span class="rating" id="hero-rating">15</span><span id="hero-format">Feature film</span></div>
+  <main id="main-content">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-backdrop" id="hero-backdrop" aria-hidden="true"></div>
+      <div class="hero-vignette" aria-hidden="true"></div>
+
+      <div class="hero-content">
+        <p class="original-label"><span aria-hidden="true">N</span> NETVISTASTUDIO ORIGINAL</p>
+        <h1 id="hero-title">The dark echo’s of 1939</h1>
+        <div class="title-meta">
+          <span class="availability">Now streaming</span>
+          <span id="hero-year">1939</span>
+          <span class="certificate" id="hero-rating">15</span>
+          <span id="hero-format">Feature film</span>
+        </div>
         <p class="hero-description" id="hero-description">A buried broadcast, a vanished town, and one voice still echoing through the static. Uncover the story that history tried to erase.</p>
         <div class="hero-actions">
-          <button class="button button-primary" id="play-featured" type="button"><span aria-hidden="true">▶</span> Play</button>
-          <button class="button button-secondary" id="featured-info" type="button"><span aria-hidden="true">ⓘ</span> More Info</button>
-          <button class="button button-download" id="open-install" type="button"><span aria-hidden="true">↓</span> Get the app</button>
+          <button class="button button-primary" id="hero-play" type="button"><span aria-hidden="true">▶</span> Play film</button>
+          <button class="button button-secondary" id="hero-details" type="button"><span aria-hidden="true">ⓘ</span> Details</button>
         </div>
       </div>
-      <div class="hero-caption"><span>01</span><i></i><span>02</span><em>Featured tonight</em></div>
+
+      <div class="hero-switcher" id="hero-switcher" aria-label="Choose featured film"></div>
+      <p class="hero-count"><span id="hero-index">01</span><i aria-hidden="true"></i><span>02</span></p>
     </section>
 
-  <div class="content" id="rows"></div>
+    <section class="catalog-section now-streaming" id="films" aria-labelledby="films-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">WATCH NOW</p>
+          <h2 id="films-title">Now streaming</h2>
+        </div>
+        <p>Two original films. No account required—press play and watch.</p>
+      </div>
+      <div class="film-grid" id="film-grid"></div>
+    </section>
 
+    <section class="catalog-section coming-section" id="coming-soon" aria-labelledby="coming-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">IN PRODUCTION</p>
+          <h2 id="coming-title">Coming soon</h2>
+        </div>
+        <p>A small look at the stories currently taking shape at netvistastudio.</p>
+      </div>
+      <div class="slate-grid" id="slate-grid"></div>
+    </section>
+
+    <section class="studio-callout" aria-labelledby="studio-callout-title">
+      <div>
+        <p class="section-kicker">JOIN THE STUDIO</p>
+        <h2 id="studio-callout-title">Make something that stays after the screen goes dark.</h2>
+      </div>
+      <div>
+        <p>Writers, directors, editors and creative collaborators can introduce themselves through our Applications page.</p>
+        <a class="button button-primary" href="applications/">View Applications <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
-    <p class="copyright">NETVISTASTUDIO — demo interface, all titles fictional · © 2026</p>
+    <a class="footer-brand" href="./">netvistastudio</a>
+    <p>Independent stories after dark.</p>
+    <div class="footer-actions">
+      <a href="applications/">Applications</a>
+      <button type="button" data-open-install>Get the app</button>
+    </div>
+    <p class="copyright">© <span data-current-year>2026</span> netvistastudio</p>
   </footer>
 
-  <div class="toast" role="status" aria-live="polite"></div>
-  <div class="player" id="player" hidden>
-    <div class="player-backdrop" data-close-player></div>
-    <section class="player-dialog" role="dialog" aria-modal="true" aria-labelledby="player-title">
-      <div class="player-bar"><h2 id="player-title">The dark echo’s of 1939</h2><button class="player-close" type="button" data-close-player aria-label="Close video">×</button></div>
-      <div class="player-frame"><iframe id="video-frame" title="The dark echo’s of 1939" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
-    </section>
-  </div>
-  <div class="install-modal" id="install-modal" hidden>
-    <div class="install-backdrop" data-close-install></div>
-    <section class="install-dialog" role="dialog" aria-modal="true" aria-labelledby="install-title">
-      <div class="install-heading"><p class="eyebrow">NETVISTASTUDIO DESKTOP</p><h2 id="install-title">Get the app</h2><button class="install-close" type="button" data-close-install aria-label="Close download options">×</button></div>
-      <p class="install-copy">Install netvistastudio on your computer for a dedicated, app-like experience.</p>
-      <div class="install-options">
-        <button class="install-option" type="button" data-install-platform="Mac"><span class="platform-symbol" aria-hidden="true">⌘</span><span><strong>Get for Mac</strong><small>Install with Chrome</small></span></button>
-        <button class="install-option" type="button" data-install-platform="Windows"><span class="platform-symbol" aria-hidden="true">⊞</span><span><strong>Get for Windows</strong><small>Install with Chrome or Edge</small></span></button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="dialog player-dialog-shell" id="player-dialog" hidden>
+    <div class="dialog-backdrop" data-dialog-close></div>
+    <section class="dialog-panel player-panel" role="dialog" aria-modal="true" aria-labelledby="player-title">
+      <div class="player-bar">
+        <div>
+          <p>NOW PLAYING</p>
+          <h2 id="player-title">Film</h2>
+        </div>
+        <button class="dialog-close" type="button" data-dialog-close aria-label="Close video">×</button>
       </div>
-      <p class="install-status" id="install-status" role="status" aria-live="polite">Choose your computer to install the app.</p>
+      <div class="player-frame">
+        <iframe id="video-frame" title="netvistastudio player" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      </div>
     </section>
   </div>
-  <div class="details-modal" id="details-modal" hidden>
-    <div class="details-backdrop" data-close-details></div>
-    <section class="details-dialog" role="dialog" aria-modal="true" aria-labelledby="details-title">
+
+  <div class="dialog" id="details-dialog" hidden>
+    <div class="dialog-backdrop" data-dialog-close></div>
+    <section class="dialog-panel details-panel" role="dialog" aria-modal="true" aria-labelledby="details-title">
       <div class="details-art" id="details-art">
-        <button class="details-close" type="button" data-close-details aria-label="Close title details">×</button>
-        <div class="details-art-shade"></div>
+        <div class="details-art-shade" aria-hidden="true"></div>
+        <button class="dialog-close" type="button" data-dialog-close aria-label="Close film details">×</button>
         <div class="details-heading">
-          <p class="eyebrow">NETVISTASTUDIO ORIGINAL</p>
-          <h2 id="details-title">The dark echo’s of 1939</h2>
+          <p class="original-label"><span aria-hidden="true">N</span> NETVISTASTUDIO ORIGINAL</p>
+          <h2 id="details-title">Film title</h2>
         </div>
       </div>
-      <div class="details-body">
-        <div class="details-meta"><span class="match" id="details-match">98% match</span><span id="details-year">1939</span><span class="rating" id="details-rating">15</span><span id="details-format">Feature film</span></div>
-        <p id="details-description"></p>
-        <div class="details-actions">
-          <button class="button button-primary" id="details-play" type="button"><span aria-hidden="true">▶</span> Play</button>
+      <div class="details-content">
+        <div class="title-meta">
+          <span class="availability">Now streaming</span>
+          <span id="details-year"></span>
+          <span class="certificate" id="details-rating"></span>
+          <span id="details-format"></span>
         </div>
+        <p id="details-description"></p>
+        <button class="button button-primary" id="details-play" type="button"><span aria-hidden="true">▶</span> Play film</button>
       </div>
     </section>
   </div>
-  <script src="assets/js/app.js" defer></script>
+
+  <div class="dialog" id="install-dialog" hidden>
+    <div class="dialog-backdrop" data-dialog-close></div>
+    <section class="dialog-panel install-panel" role="dialog" aria-modal="true" aria-labelledby="install-title">
+      <button class="dialog-close" type="button" data-dialog-close aria-label="Close app install options">×</button>
+      <p class="section-kicker">NETVISTASTUDIO APP</p>
+      <h2 id="install-title">Watch from your desktop.</h2>
+      <p>Install this site as an app for a focused, full-screen experience. Your browser will always ask before installing.</p>
+      <div class="install-options">
+        <button class="install-option" type="button" data-install-platform="Mac">
+          <span aria-hidden="true">⌘</span><strong>Mac</strong><small>Chrome</small>
+        </button>
+        <button class="install-option" type="button" data-install-platform="Windows">
+          <span aria-hidden="true">⊞</span><strong>Windows</strong><small>Chrome or Edge</small>
+        </button>
+      </div>
+      <p class="install-status" id="install-status" role="status" aria-live="polite">Choose your computer to see the install option.</p>
+    </section>
+  </div>
+
+  <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>
