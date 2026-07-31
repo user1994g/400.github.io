@@ -1,6 +1,6 @@
 const rows = [
   { title: 'Films', sub: 'FEATURED TONIGHT', id: 'films', items: [
-    ["The dark echo’s of 1939",'noc-dark-echoes',1939,98,'15',null,true], ['The Final Lesson AP 1','noc-final-lesson-ap1',2026,96,'15',null,true,'https://clip-kingdom-play.lovable.app/embed/878b4496-ab7a-47fe-8e0f-0b489311241c'], ['Hollow Coast','noc-hollowcoast',2026,97,'18'], ['Paper Moths','noc-papermoths',2024,94,'12'], ['Glass Orchard','noc-glassorchard',2023,92,'PG'], ['Salt & Bone','noc-saltbone',2024,97,'15'], ['The Last Broadcast','noc-last-broadcast',2025,95,'15',null,false,null,false], ['Rooms Without Doors','noc-rooms-doors',2024,91,'12',null,false,null,false], ['Ashes at Dawn','noc-ashes-dawn',2026,94,'18',null,false,null,false], ['The Blue Hour','noc-blue-hour',2025,89,'15',null,false,null,false]
+    ["The dark echo’s of 1939",'noc-dark-echoes',1939,98,'15',null,true], ['The Final Lesson AP 1','noc-final-lesson-ap1',2026,96,'15',null,true,'https://clip-kingdom-play.lovable.app/embed/878b4496-ab7a-47fe-8e0f-0b489311241c',true,'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHo-l09FSg8XHSPuEZax5Vindkz8AmG3DJcg&s'], ['Hollow Coast','noc-hollowcoast',2026,97,'18'], ['Paper Moths','noc-papermoths',2024,94,'12'], ['Glass Orchard','noc-glassorchard',2023,92,'PG'], ['Salt & Bone','noc-saltbone',2024,97,'15'], ['The Last Broadcast','noc-last-broadcast',2025,95,'15',null,false,null,false], ['Rooms Without Doors','noc-rooms-doors',2024,91,'12',null,false,null,false], ['Ashes at Dawn','noc-ashes-dawn',2026,94,'18',null,false,null,false], ['The Blue Hour','noc-blue-hour',2025,89,'15',null,false,null,false]
   ]},
   { title: 'Trending Now', sub: 'TOP 10 THIS WEEK', id: 'series', items: [
     ['Hollow Coast','noc-hollowcoast',2026,97,'18'], ['Nightjar','noc-nightjar',2025,90,'15'], ['Paper Moths','noc-papermoths',2024,94,'12'], ['The Understudy','noc-understudy',2026,89,'15'], ['Glass Orchard','noc-glassorchard',2023,92,'PG'], ["The Cartographer's Daughter",'noc-cartographer',2025,87,'12'], ['Ember & Rust','noc-emberrust',2024,95,'18']
@@ -52,7 +52,7 @@ const featuredTitles = [
     rating: '15',
     format: 'Feature film',
     description: 'One last class reveals a lesson no one was meant to learn. The Final Lesson AP 1 is available to watch now.',
-    image: 'https://picsum.photos/seed/noc-final-lesson-ap1/1800/1050',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHo-l09FSg8XHSPuEZax5Vindkz8AmG3DJcg&s',
     videoUrl: 'https://clip-kingdom-play.lovable.app/embed/878b4496-ab7a-47fe-8e0f-0b489311241c'
   }
 ];
@@ -93,13 +93,13 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 
 function makeCard(item) {
-  const [title, seed, year, match, rating, progress, isVideo, itemVideoUrl, released = Boolean(isVideo)] = item;
+  const [title, seed, year, match, rating, progress, isVideo, itemVideoUrl, released = Boolean(isVideo), itemImage] = item;
   const card = document.createElement('button');
   card.type = 'button';
   card.className = `card${released ? '' : ' is-unreleased'}`;
   card.setAttribute('aria-label', `Open ${title}`);
   const image = document.createElement('img');
-  image.src = `https://picsum.photos/seed/${seed}/620/350`;
+  image.src = itemImage || `https://picsum.photos/seed/${seed}/620/350`;
   image.alt = '';
   image.loading = 'lazy';
   const info = document.createElement('span');
