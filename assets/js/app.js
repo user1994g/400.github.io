@@ -32,8 +32,6 @@ const installModal = document.querySelector('#install-modal');
 const installStatus = document.querySelector('#install-status');
 const detailsModal = document.querySelector('#details-modal');
 const detailsArt = document.querySelector('#details-art');
-const featuredListButton = document.querySelector('#featured-list');
-const detailsListButton = document.querySelector('#details-list');
 let toastTimer;
 let installPrompt;
 let currentFeatured;
@@ -73,13 +71,6 @@ const featuredTitles = [
   }
 ];
 
-let savedTitles = new Set();
-try {
-  savedTitles = new Set(JSON.parse(localStorage.getItem('netvistastudio-my-list') || '[]'));
-} catch (error) {
-  savedTitles = new Set();
-}
-
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add('is-visible');
@@ -97,7 +88,6 @@ function setFeaturedTitle(feature, immediate = false) {
     heroFormat.textContent = feature.format;
     heroDescription.textContent = feature.description;
     currentFeatured = feature;
-    updateListButtons();
     heroImage.classList.remove('is-switching');
   };
 
@@ -155,12 +145,16 @@ function makeCard(item) {
 rows.forEach((row) => {
   const section = document.createElement('section');
   section.className = 'row';
+  const isTrending = row.title === 'Trending Now';
+  if (isTrending) section.classList.add('trending-row');
   if (row.id) section.id = row.id;
-  section.innerHTML = `<div class="row-heading"><h2>${row.title}</h2><p>${row.sub}</p></div><div class="row-wrap"><div class="row-track" tabindex="0" aria-label="${row.title}"></div><button class="row-arrow left" type="button" aria-label="Scroll left"><span aria-hidden="true">‹</span></button><button class="row-arrow right" type="button" aria-label="Scroll right"><span aria-hidden="true">›</span></button></div>`;
+  const arrows = isTrending ? '' : '<button class="row-arrow left" type="button" aria-label="Scroll left"><span aria-hidden="true">‹</span></button><button class="row-arrow right" type="button" aria-label="Scroll right"><span aria-hidden="true">›</span></button>';
+  const trackTabIndex = isTrending ? '' : ' tabindex="0"';
+  section.innerHTML = `<div class="row-heading"><h2>${row.title}</h2><p>${row.sub}</p></div><div class="row-wrap"><div class="row-track${isTrending ? ' trending-grid' : ''}"${trackTabIndex} aria-label="${row.title}"></div>${arrows}</div>`;
   const track = section.querySelector('.row-track');
   row.items.forEach((item, index) => {
     const card = makeCard(item);
-    if (row.title === 'Trending Now') {
+    if (isTrending) {
       card.classList.add('ranked-card-tile');
       const wrapper = document.createElement('div');
       wrapper.className = 'ranked-card';
@@ -173,86 +167,18 @@ rows.forEach((row) => {
     }
     track.appendChild(card);
   });
-  const left = section.querySelector('.left');
-  const right = section.querySelector('.right');
-  const updateArrows = () => { const max = track.scrollWidth - track.clientWidth; left.classList.toggle('is-visible', track.scrollLeft > 12); right.classList.toggle('is-visible', track.scrollLeft < max - 12); };
-  left.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * .75, behavior: 'smooth' }));
-  right.addEventListener('click', () => track.scrollBy({ left: track.clientWidth * .75, behavior: 'smooth' }));
-  track.addEventListener('scroll', updateArrows, { passive: true });
-  window.addEventListener('resize', updateArrows, { passive: true });
   content.appendChild(section);
-  requestAnimationFrame(updateArrows);
+  if (!isTrending) {
+    const left = section.querySelector('.left');
+    const right = section.querySelector('.right');
+    const updateArrows = () => { const max = track.scrollWidth - track.clientWidth; left.classList.toggle('is-visible', track.scrollLeft > 12); right.classList.toggle('is-visible', track.scrollLeft < max - 12); };
+    left.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * .75, behavior: 'smooth' }));
+    right.addEventListener('click', () => track.scrollBy({ left: track.clientWidth * .75, behavior: 'smooth' }));
+    track.addEventListener('scroll', updateArrows, { passive: true });
+    window.addEventListener('resize', updateArrows, { passive: true });
+    requestAnimationFrame(updateArrows);
+  }
 });
-
-const myListSection = document.createElement('section');
-myListSection.className = 'row';
-myListSection.id = 'my-list';
-myListSection.innerHTML = '<div class="row-heading"><h2>My List</h2><p>SAVED FOR LATER</p></div><div class="my-list-content"></div>';
-content.children[0]?.after(myListSection);
-
-function featureToCard(feature) {
-  return [
-    feature.title,
-    `saved-${feature.title}`,
-    Number(feature.year),
-    Number.parseInt(feature.match, 10),
-    feature.rating,
-    null,
-    true,
-    feature.videoUrl,
-    true,
-    feature.image
-  ];
-}
-
-function renderMyList() {
-  const listContent = myListSection.querySelector('.my-list-content');
-  listContent.replaceChildren();
-  const savedFeatures = featuredTitles.filter((feature) => savedTitles.has(feature.title));
-
-  if (!savedFeatures.length) {
-    const empty = document.createElement('div');
-    empty.className = 'my-list-empty';
-    empty.innerHTML = '<p><strong>Your list is waiting.</strong><span>Use “My List” on a featured title to save it here.</span></p>';
-    listContent.appendChild(empty);
-    return;
-  }
-
-  const wrap = document.createElement('div');
-  wrap.className = 'row-wrap';
-  const track = document.createElement('div');
-  track.className = 'row-track';
-  savedFeatures.forEach((feature) => track.appendChild(makeCard(featureToCard(feature))));
-  wrap.appendChild(track);
-  listContent.appendChild(wrap);
-}
-
-function updateListButtons() {
-  const updateButton = (button, feature) => {
-    if (!button || !feature) return;
-    const saved = savedTitles.has(feature.title);
-    button.innerHTML = `<span aria-hidden="true">${saved ? '✓' : '＋'}</span> ${saved ? 'In My List' : 'My List'}`;
-    button.setAttribute('aria-pressed', String(saved));
-  };
-  updateButton(featuredListButton, currentFeatured);
-  updateButton(detailsListButton, detailsFeature);
-}
-
-function toggleSavedTitle(feature) {
-  if (!feature) return;
-  if (savedTitles.has(feature.title)) {
-    savedTitles.delete(feature.title);
-    showToast(`${feature.title} removed from My List.`);
-  } else {
-    savedTitles.add(feature.title);
-    showToast(`${feature.title} added to My List.`);
-  }
-  localStorage.setItem('netvistastudio-my-list', JSON.stringify([...savedTitles]));
-  renderMyList();
-  updateListButtons();
-}
-
-renderMyList();
 
 window.addEventListener('scroll', () => document.querySelector('#site-header').classList.toggle('is-scrolled', window.scrollY > 32), { passive: true });
 document.querySelectorAll('[data-message]').forEach((button) => button.addEventListener('click', () => showToast(button.dataset.message)));
@@ -327,7 +253,6 @@ function closePlayer() {
 }
 
 document.querySelector('#play-featured').addEventListener('click', () => openPlayer(currentFeatured.videoUrl, currentFeatured.title));
-featuredListButton.addEventListener('click', () => toggleSavedTitle(currentFeatured));
 document.querySelectorAll('[data-close-player]').forEach((element) => element.addEventListener('click', closePlayer));
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !player.hidden) closePlayer(); });
 
@@ -340,7 +265,6 @@ function openDetails(feature) {
   document.querySelector('#details-rating').textContent = feature.rating;
   document.querySelector('#details-format').textContent = feature.format;
   document.querySelector('#details-description').textContent = feature.description;
-  updateListButtons();
   detailsModal.hidden = false;
   document.body.classList.add('player-open');
   detailsModal.querySelector('.details-close').focus();
@@ -352,7 +276,6 @@ function closeDetails() {
 }
 
 document.querySelector('#featured-info').addEventListener('click', () => openDetails(currentFeatured));
-detailsListButton.addEventListener('click', () => toggleSavedTitle(detailsFeature));
 document.querySelector('#details-play').addEventListener('click', () => {
   const feature = detailsFeature;
   closeDetails();
