@@ -21,16 +21,75 @@ const toast = document.querySelector('.toast');
 const player = document.querySelector('#player');
 const videoFrame = document.querySelector('#video-frame');
 const videoUrl = 'https://clip-kingdom-play.lovable.app/embed/21230af6-5a84-4072-befc-276e5f349145';
+const heroImage = document.querySelector('.hero-image');
+const heroTitle = document.querySelector('#hero-title');
+const heroMatch = document.querySelector('#hero-match');
+const heroYear = document.querySelector('#hero-year');
+const heroRating = document.querySelector('#hero-rating');
+const heroFormat = document.querySelector('#hero-format');
+const heroDescription = document.querySelector('#hero-description');
 const installModal = document.querySelector('#install-modal');
 const installStatus = document.querySelector('#install-status');
 let toastTimer;
 let installPrompt;
+let currentFeatured;
+
+const featuredTitles = [
+  {
+    title: 'The dark echo’s of 1939',
+    match: '98% match',
+    year: '1939',
+    rating: '15',
+    format: 'Feature film',
+    description: 'A buried broadcast, a vanished town, and one voice still echoing through the static. Uncover the story that history tried to erase.',
+    image: 'https://picsum.photos/seed/noc-dark-echoes/1800/1050',
+    videoUrl
+  },
+  {
+    title: 'The Final Lesson AP 1',
+    match: '96% match',
+    year: '2026',
+    rating: '15',
+    format: 'Feature film',
+    description: 'One last class reveals a lesson no one was meant to learn. The Final Lesson AP 1 is available to watch now.',
+    image: 'https://picsum.photos/seed/noc-final-lesson-ap1/1800/1050',
+    videoUrl: 'https://clip-kingdom-play.lovable.app/embed/878b4496-ab7a-47fe-8e0f-0b489311241c'
+  }
+];
 
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add('is-visible');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2400);
+}
+
+function setFeaturedTitle(feature, immediate = false) {
+  const applyFeature = () => {
+    heroImage.style.backgroundImage = `url('${feature.image}')`;
+    heroTitle.textContent = feature.title;
+    heroMatch.textContent = feature.match;
+    heroYear.textContent = feature.year;
+    heroRating.textContent = feature.rating;
+    heroFormat.textContent = feature.format;
+    heroDescription.textContent = feature.description;
+    currentFeatured = feature;
+    heroImage.classList.remove('is-switching');
+  };
+
+  if (immediate) return applyFeature();
+  heroImage.classList.add('is-switching');
+  window.setTimeout(applyFeature, 550);
+}
+
+function rotateFeaturedTitle() {
+  const choices = featuredTitles.filter((feature) => feature !== currentFeatured);
+  setFeaturedTitle(choices[Math.floor(Math.random() * choices.length)]);
+}
+
+setFeaturedTitle(featuredTitles[0], true);
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  window.setInterval(rotateFeaturedTitle, 28000);
 }
 
 function makeCard(item, wide) {
@@ -135,7 +194,8 @@ function closePlayer() {
   document.body.classList.remove('player-open');
 }
 
-document.querySelector('#play-featured').addEventListener('click', openPlayer);
+document.querySelector('#play-featured').addEventListener('click', () => openPlayer(currentFeatured.videoUrl, currentFeatured.title));
+document.querySelector('#featured-info').addEventListener('click', () => showToast(`${currentFeatured.title} · ${currentFeatured.format} · Available now.`));
 document.querySelectorAll('[data-close-player]').forEach((element) => element.addEventListener('click', closePlayer));
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !player.hidden) closePlayer(); });
 
