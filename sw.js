@@ -1,10 +1,10 @@
-const CACHE_NAME = 'netvistastudio-shell-v1';
+const CACHE_NAME = 'netvistastudio-shell-v2';
 const APP_SHELL = [
   '/',
   '/site.webmanifest',
   '/assets/css/style.css',
   '/assets/js/app.js',
-  '/assets/images/logo.png'
+  '/assets/images/photos/netvistastudio-logo.png'
 ];
 
 self.addEventListener('install', (event) => {

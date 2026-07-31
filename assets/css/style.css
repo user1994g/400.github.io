@@ -86,8 +86,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--red-light); out
 .row-arrow.right { right: 0; left: auto; background: linear-gradient(-90deg, var(--bg), transparent); }
 .row-arrow.is-visible { opacity: .9; pointer-events: auto; }
 .row-arrow span { font-size: 27px; }
-.card { position: relative; flex: 0 0 auto; width: 220px; aspect-ratio: 2 / 3; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.06); border-radius: 6px; background: var(--surface); text-align: left; transition: transform .25s, box-shadow .25s; }
-.card.wide { width: 310px; aspect-ratio: 16 / 9; }
+.card { position: relative; flex: 0 0 auto; width: 310px; aspect-ratio: 16 / 9; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.06); border-radius: 6px; background: var(--surface); text-align: left; transition: transform .25s, box-shadow .25s; }
 .card img { display: block; width: 100%; height: 100%; object-fit: cover; filter: brightness(.8) saturate(.9); transition: filter .25s; }
 .card::after { position: absolute; inset: 0; background: linear-gradient(transparent 36%, rgba(5,5,7,.94)); content: ''; opacity: 0; transition: opacity .25s; }
 .card-info { position: absolute; right: 14px; bottom: 13px; left: 14px; z-index: 1; transform: translateY(8px); opacity: 0; transition: opacity .25s, transform .25s; }
@@ -150,8 +149,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--red-light); out
   .row-heading { display: block; }
   .row-heading p { display: block; margin-top: 4px; }
   .row-track { gap: 10px; }
-  .card { width: 145px; }
-  .card.wide { width: 230px; }
+  .card { width: 230px; }
   .card::after { opacity: .88; }
   .card-info { right: 10px; bottom: 10px; left: 10px; transform: none; opacity: 1; }
   .card-title { margin-bottom: 4px; font-size: 12px; line-height: 1.15; }

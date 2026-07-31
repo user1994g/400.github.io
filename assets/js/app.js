@@ -1,5 +1,5 @@
 const rows = [
-  { title: 'Films', sub: 'FEATURED TONIGHT', id: 'films', wide: true, items: [
+  { title: 'Films', sub: 'FEATURED TONIGHT', id: 'films', items: [
     ["The dark echo’s of 1939",'noc-dark-echoes',1939,98,'15',null,true], ['The Final Lesson AP 1','noc-final-lesson-ap1',2026,96,'15',null,true,'https://clip-kingdom-play.lovable.app/embed/878b4496-ab7a-47fe-8e0f-0b489311241c'], ['Hollow Coast','noc-hollowcoast',2026,97,'18'], ['Paper Moths','noc-papermoths',2024,94,'12'], ['Glass Orchard','noc-glassorchard',2023,92,'PG'], ['Salt & Bone','noc-saltbone',2024,97,'15'], ['The Last Broadcast','noc-last-broadcast',2025,95,'15',null,false,null,false], ['Rooms Without Doors','noc-rooms-doors',2024,91,'12',null,false,null,false], ['Ashes at Dawn','noc-ashes-dawn',2026,94,'18',null,false,null,false], ['The Blue Hour','noc-blue-hour',2025,89,'15',null,false,null,false]
   ]},
   { title: 'Trending Now', sub: 'TOP 10 THIS WEEK', id: 'series', items: [
@@ -92,14 +92,14 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   window.setInterval(rotateFeaturedTitle, 28000);
 }
 
-function makeCard(item, wide) {
+function makeCard(item) {
   const [title, seed, year, match, rating, progress, isVideo, itemVideoUrl, released = Boolean(isVideo)] = item;
   const card = document.createElement('button');
   card.type = 'button';
-  card.className = `card${wide ? ' wide' : ''}${released ? '' : ' is-unreleased'}`;
+  card.className = `card${released ? '' : ' is-unreleased'}`;
   card.setAttribute('aria-label', `Open ${title}`);
   const image = document.createElement('img');
-  image.src = `https://picsum.photos/seed/${seed}/${wide ? '620/350' : '440/660'}`;
+  image.src = `https://picsum.photos/seed/${seed}/620/350`;
   image.alt = '';
   image.loading = 'lazy';
   const info = document.createElement('span');
@@ -128,7 +128,7 @@ rows.forEach((row) => {
   if (row.id) section.id = row.id;
   section.innerHTML = `<div class="row-heading"><h2>${row.title}</h2><p>${row.sub}</p></div><div class="row-wrap"><div class="row-track" tabindex="0" aria-label="${row.title}"></div><button class="row-arrow left" type="button" aria-label="Scroll left"><span aria-hidden="true">‹</span></button><button class="row-arrow right" type="button" aria-label="Scroll right"><span aria-hidden="true">›</span></button></div>`;
   const track = section.querySelector('.row-track');
-  row.items.forEach((item) => track.appendChild(makeCard(item, row.wide)));
+  row.items.forEach((item) => track.appendChild(makeCard(item)));
   const left = section.querySelector('.left');
   const right = section.querySelector('.right');
   const updateArrows = () => { const max = track.scrollWidth - track.clientWidth; left.classList.toggle('is-visible', track.scrollLeft > 12); right.classList.toggle('is-visible', track.scrollLeft < max - 12); };
